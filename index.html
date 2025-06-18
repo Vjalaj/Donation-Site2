@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seva Connect - Donation Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="admin/photos/logo.png" alt="Seva Connect" class="logo-img">
+                <span>Seva Connect</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#causes">Causes</a></li>
+                <li><a href="#membership">Membership</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-moon"></i></button></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Make a Difference Today</h1>
+                <p>Join us in serving humanity through compassionate giving</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollTo('#causes')">Donate Now</button>
+                    <button class="btn btn-secondary" onclick="scrollTo('#membership')">Become a Member</button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="admin/photos/hero-image.jpg" alt="Seva Connect Hero">
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about">
+            <div class="container">
+                <h2>About Seva Connect</h2>
+                <div class="about-content" id="about-text">
+                    <!-- About text will be loaded from about.txt -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Causes Section -->
+        <section id="causes" class="causes">
+            <div class="container">
+                <h2>Our Causes</h2>
+                <div class="causes-grid">
+                    <div class="cause-card" data-cause="orphanage">
+                        <div class="cause-icon">
+                            <i class="fas fa-child"></i>
+                        </div>
+                        <h3>Orphanage</h3>
+                        <p>Support children in need with care, education, and a loving environment.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('orphanage')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="gowshala">
+                        <div class="cause-icon">
+                            <i class="fas fa-cow"></i>
+                        </div>
+                        <h3>Gowshala</h3>
+                        <p>Help protect and care for cows in our traditional gowshalas.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('gowshala')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="vridha-ashram">
+                        <div class="cause-icon">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <h3>Vridha Ashram</h3>
+                        <p>Provide care and support for elderly people in their golden years.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('vridha-ashram')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="health">
+                        <div class="cause-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3>Help Health Group</h3>
+                        <p>Support general healthcare initiatives and medical assistance programs.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('health')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="samuhik-vivah">
+                        <div class="cause-icon">
+                            <i class="fas fa-rings-wedding"></i>
+                        </div>
+                        <h3>Samuhik Vivah</h3>
+                        <p>Help organize mass wedding ceremonies for underprivileged families.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('samuhik-vivah')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="pooja-rituals">
+                        <div class="cause-icon">
+                            <i class="fas fa-om"></i>
+                        </div>
+                        <h3>Pooja Path & Rituals</h3>
+                        <p>Support spiritual activities, religious ceremonies, and cultural preservation.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('pooja-rituals')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="eye-camp">
+                        <div class="cause-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3>Eye Camp Organisation</h3>
+                        <p>Fund eye care camps and treatments for vision-related health issues.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('eye-camp')">Donate</button>
+                    </div>
+
+                    <div class="cause-card" data-cause="environment">
+                        <div class="cause-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Environmental Protection</h3>
+                        <p>Support environmental conservation and sustainability initiatives.</p>
+                        <button class="btn btn-primary" onclick="openDonationModal('environment')">Donate</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Membership Section -->
+        <section id="membership" class="membership">
+            <div class="container">
+                <h2>Become a Member</h2>
+                <p>Join our community of changemakers and receive a personalized certificate of membership.</p>
+                <div class="membership-form">
+                    <form id="membershipForm">
+                        <div class="form-group">
+                            <label for="memberName">Full Name</label>
+                            <input type="text" id="memberName" name="memberName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="memberEmail">Email Address</label>
+                            <input type="email" id="memberEmail" name="memberEmail" required>
+                        </div>                        <div class="form-group">
+                            <label for="memberPhone">Phone Number (Optional)</label>
+                            <input type="tel" id="memberPhone" name="memberPhone">
+                        </div>
+                        <div class="form-group">
+                            <label for="memberMessage">Message to Team</label>
+                            <textarea id="memberMessage" name="memberMessage" placeholder="Share your thoughts or motivation for joining Seva Connect..." required></textarea>
+                        </div>
+                        <div class="membership-fee">
+                            <h4>Membership Fee: ₹1,111</h4>
+                            <p>Your membership contribution helps us maintain our platform and support our noble causes.</p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Pay ₹1,111 & Become a Member</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91 XXXXXXXXXX</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@sevaconnect.org</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Your Address Here</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDonationModal()">&times;</span>
+            <h2 id="modalTitle">Make a Donation</h2>
+            <form id="donationForm">
+                <input type="hidden" id="donationCause" name="cause">
+                <div class="form-group">
+                    <label for="donorName">Full Name</label>
+                    <input type="text" id="donorName" name="donorName" required>
+                </div>
+                <div class="form-group">
+                    <label for="donorEmail">Email Address</label>
+                    <input type="email" id="donorEmail" name="donorEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="donorPhone">Phone Number</label>
+                    <input type="tel" id="donorPhone" name="donorPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="donationAmount">Donation Amount (₹)</label>
+                    <input type="number" id="donationAmount" name="donationAmount" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="donationMessage">Message (Optional)</label>
+                    <textarea id="donationMessage" name="donationMessage"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Donate Now</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Seva Connect. All rights reserved. Made with ❤️ for humanity.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

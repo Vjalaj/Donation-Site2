@@ -1,0 +1,3 @@
+# This file ensures the admin photos directory is preserved in git
+# Uploaded photos will be stored here but not committed to version control
+# to protect user privacy and avoid large binary files in the repository.

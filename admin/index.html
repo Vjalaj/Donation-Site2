@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Seva Connect</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="admin-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="photos/logo.png" alt="Seva Connect" class="logo-img">
+                <span>Seva Connect Admin</span>
+            </div>            <ul class="nav-menu">
+                <li><a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> View Site</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme"><i class="fas fa-moon"></i></button></li>
+                <li><button class="logout-btn" onclick="logout()" title="Logout"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <aside class="admin-sidebar">            <ul class="admin-menu">
+                <li><a href="#dashboard" class="active" onclick="showSection('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#content" onclick="showSection('content')"><i class="fas fa-edit"></i> Manage Content</a></li>
+                <li><a href="#photos" onclick="showSection('photos')"><i class="fas fa-images"></i> Manage Photos</a></li>
+                <li><a href="#donations" onclick="showSection('donations')"><i class="fas fa-hand-holding-heart"></i> Donations</a></li>
+                <li><a href="#members" onclick="showSection('members')"><i class="fas fa-users"></i> Members</a></li>
+                <li><a href="#certificates" onclick="showSection('certificates')"><i class="fas fa-certificate"></i> Certificates</a></li>
+                <li><a href="#settings" onclick="showSection('settings')"><i class="fas fa-cog"></i> Admin Settings</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <h2>Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalDonations">Loading...</h3>
+                            <p>Total Donations</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalAmount">Loading...</h3>
+                            <p>Total Amount Raised</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="totalMembers">Loading...</h3>
+                            <p>Total Members</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="thisMonth">Loading...</h3>
+                            <p>This Month</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="charts-container">
+                    <div class="chart-card">
+                        <h3>Recent Donations</h3>
+                        <div id="recentDonations" class="data-table">
+                            <!-- Recent donations will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Donations by Cause</h3>
+                        <div id="donationsByCause">
+                            <!-- Donations by cause chart will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Content Management Section -->
+            <section id="content" class="admin-section">
+                <h2>Manage Content</h2>
+                <div class="content-management">
+                    <div class="content-card">
+                        <h3>About Text</h3>
+                        <p>Edit the about section text that appears on the main website.</p>
+                        <form id="aboutForm">
+                            <textarea id="aboutText" rows="10" cols="50" placeholder="Enter about text..."></textarea>
+                            <div class="form-actions">
+                                <button type="button" onclick="loadAboutText()" class="btn btn-secondary">Load Current</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="content-card">
+                        <h3>Site Settings</h3>
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label for="ownerName">Owner Name (for certificates)</label>
+                                <input type="text" id="ownerName" name="ownerName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPhone">Contact Phone</label>
+                                <input type="tel" id="contactPhone" name="contactPhone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Contact Email</label>
+                                <input type="email" id="contactEmail" name="contactEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactAddress">Contact Address</label>
+                                <textarea id="contactAddress" name="contactAddress" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Photos Management Section -->
+            <section id="photos" class="admin-section">
+                <h2>Manage Photos</h2>
+                <div class="photos-management">
+                    <div class="upload-section">
+                        <h3>Upload New Photos</h3>
+                        <form id="photoUploadForm" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="photoType">Photo Type</label>
+                                <select id="photoType" name="photoType" required>
+                                    <option value="">Select photo type...</option>
+                                    <option value="logo">Logo</option>
+                                    <option value="hero">Hero Image</option>
+                                    <option value="gallery">Gallery</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="photoFile">Choose Photo</label>
+                                <input type="file" id="photoFile" name="photoFile" accept="image/*" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Upload Photo</button>
+                        </form>
+                    </div>
+                    
+                    <div class="current-photos">
+                        <h3>Current Photos</h3>
+                        <div class="photos-grid" id="photosGrid">
+                            <!-- Current photos will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Donations Section -->
+            <section id="donations" class="admin-section">
+                <h2>Donations Management</h2>
+                <div class="donations-controls">
+                    <div class="search-filter">
+                        <input type="text" id="donationSearch" placeholder="Search donations...">
+                        <select id="causeFilter">
+                            <option value="">All Causes</option>
+                            <option value="orphanage">Orphanage</option>
+                            <option value="gowshala">Gowshala</option>
+                            <option value="vridha-ashram">Vridha Ashram</option>
+                            <option value="health">Health Group</option>
+                            <option value="samuhik-vivah">Samuhik Vivah</option>
+                            <option value="pooja-rituals">Pooja Path & Rituals</option>
+                            <option value="eye-camp">Eye Camp</option>
+                            <option value="environment">Environmental Protection</option>
+                        </select>
+                        <button onclick="filterDonations()" class="btn btn-primary">Filter</button>
+                    </div>
+                    <button onclick="exportDonations()" class="btn btn-secondary">Export CSV</button>
+                </div>
+                <div class="data-table" id="donationsTable">
+                    <!-- Donations table will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Members Section -->
+            <section id="members" class="admin-section">
+                <h2>Members Management</h2>
+                <div class="members-controls">
+                    <div class="search-filter">
+                        <input type="text" id="memberSearch" placeholder="Search members...">
+                        <button onclick="filterMembers()" class="btn btn-primary">Search</button>
+                    </div>
+                    <button onclick="exportMembers()" class="btn btn-secondary">Export CSV</button>
+                </div>
+                <div class="data-table" id="membersTable">
+                    <!-- Members table will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Certificates Section -->
+            <section id="certificates" class="admin-section">
+                <h2>Certificates Management</h2>
+                <div class="certificates-management">
+                    <div class="certificate-generator">
+                        <h3>Generate New Certificate</h3>
+                        <form id="certificateForm">
+                            <div class="form-group">
+                                <label for="certMemberName">Member Name</label>
+                                <input type="text" id="certMemberName" name="certMemberName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="certMembershipId">Membership ID</label>
+                                <input type="text" id="certMembershipId" name="certMembershipId" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="certTheme">Theme</label>
+                                <select id="certTheme" name="certTheme" required>
+                                    <option value="light">Light Theme</option>
+                                    <option value="dark">Dark Theme</option>
+                                    <option value="both">Both Themes</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Generate Certificate</button>
+                        </form>
+                    </div>
+                    
+                    <div class="certificates-list">
+                        <h3>Recent Certificates</h3>
+                        <div id="certificatesList">
+                            <!-- Certificates list will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Settings Section -->
+            <section id="settings" class="admin-section">
+                <h2>Admin Settings</h2>
+                <div class="settings-management">
+                    <div class="settings-card">
+                        <h3><i class="fas fa-key"></i> Change Password</h3>
+                        <form id="passwordForm" class="admin-form">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" name="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Change Password
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <h3><i class="fas fa-user"></i> Admin Info</h3>
+                        <div id="adminInfo" class="admin-info">
+                            <!-- Admin info will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/script.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

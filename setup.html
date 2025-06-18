@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Setup Check - Seva Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .header p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+        }
+        
+        .status-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            border-left: 5px solid #ddd;
+        }
+        
+        .status-card.success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .status-card.error {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .status-card.warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 1.1rem;
+        }
+        
+        .status-item i {
+            width: 30px;
+            margin-right: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .success-icon { color: #28a745; }
+        .error-icon { color: #dc3545; }
+        .warning-icon { color: #ffc107; }
+        
+        .setup-instructions {
+            background: #e3f2fd;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .setup-instructions h3 {
+            color: #1976d2;
+            margin-top: 0;
+        }
+        
+        .setup-instructions ol {
+            padding-left: 20px;
+        }
+        
+        .setup-instructions li {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        
+        .check-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            transition: transform 0.2s;
+        }
+        
+        .check-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .check-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .admin-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .admin-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+        
+        .admin-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-database"></i> Database Setup Check</h1>
+            <p>Verify your Seva Connect database is properly configured</p>
+        </div>
+        
+        <button class="check-button" onclick="checkSetup()">
+            <i class="fas fa-sync-alt"></i> Check Database Setup
+        </button>
+        
+        <div id="results"></div>
+        
+        <div class="admin-link">
+            <a href="admin/login.html"><i class="fas fa-sign-in-alt"></i> Go to Admin Login</a>
+        </div>
+    </div>
+    
+    <script>
+        async function checkSetup() {
+            const button = document.querySelector('.check-button');
+            const results = document.getElementById('results');
+            
+            // Show loading
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+            
+            results.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Checking database setup...</p>
+                </div>
+            `;
+            
+            try {
+                const response = await fetch('php/setup_check.php');
+                const data = await response.json();
+                
+                displayResults(data);
+                
+            } catch (error) {
+                results.innerHTML = `
+                    <div class="status-card error">
+                        <div class="status-item">
+                            <i class="fas fa-exclamation-triangle error-icon"></i>
+                            <span>Failed to check setup: ${error.message}</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Reset button
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-sync-alt"></i> Check Database Setup';
+        }
+        
+        function displayResults(data) {
+            const results = document.getElementById('results');
+            let html = '';
+            
+            // Database connection
+            html += `
+                <div class="status-card ${data.database_connected ? 'success' : 'error'}">
+                    <div class="status-item">
+                        <i class="fas fa-${data.database_connected ? 'check-circle success-icon' : 'times-circle error-icon'}"></i>
+                        <span>Database Connection: ${data.database_connected ? 'Connected' : 'Failed'}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Tables exist
+            html += `
+                <div class="status-card ${data.tables_exist ? 'success' : 'error'}">
+                    <div class="status-item">
+                        <i class="fas fa-${data.tables_exist ? 'check-circle success-icon' : 'times-circle error-icon'}"></i>
+                        <span>Required Tables: ${data.tables_exist ? 'All Present' : 'Missing'}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Admin user exists
+            html += `
+                <div class="status-card ${data.admin_user_exists ? 'success' : 'warning'}">
+                    <div class="status-item">
+                        <i class="fas fa-${data.admin_user_exists ? 'check-circle success-icon' : 'exclamation-triangle warning-icon'}"></i>
+                        <span>Admin User: ${data.admin_user_exists ? 'Configured' : 'Not Found'}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Show errors
+            if (data.errors && data.errors.length > 0) {
+                html += `
+                    <div class="status-card error">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Issues Found:</h3>
+                `;
+                data.errors.forEach(error => {
+                    html += `
+                        <div class="status-item">
+                            <i class="fas fa-times-circle error-icon"></i>
+                            <span>${error}</span>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            }
+            
+            // Show setup instructions if needed
+            if (data.setup_required && data.setup_instructions) {
+                html += `
+                    <div class="setup-instructions">
+                        <h3><i class="fas fa-wrench"></i> Setup Required</h3>
+                        <p>Please complete the following steps:</p>
+                        <ol>
+                `;
+                data.setup_instructions.forEach(instruction => {
+                    html += `<li>${instruction}</li>`;
+                });
+                html += `
+                        </ol>
+                        <p><strong>Note:</strong> Default admin credentials will be created:</p>
+                        <ul>
+                            <li><strong>Username:</strong> admin</li>
+                            <li><strong>Password:</strong> admin123</li>
+                            <li><em>Please change these after first login!</em></li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            // Success message
+            if (!data.setup_required && data.database_connected && data.tables_exist && data.admin_user_exists) {
+                html += `
+                    <div class="status-card success">
+                        <div class="status-item">
+                            <i class="fas fa-check-circle success-icon"></i>
+                            <span><strong>✅ Everything looks good! You can now access the admin panel.</strong></span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            results.innerHTML = html;
+        }
+        
+        // Auto-check on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSetup();
+        });
+    </script>
+</body>
+</html>

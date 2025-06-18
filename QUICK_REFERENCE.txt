@@ -1,0 +1,52 @@
+┌──────────────────────────────────────────────────────────────────┐
+│                     🌟 SEVA CONNECT - QUICK REF 🌟                  │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  🚀 QUICK START:                                                 │
+│  1. Double-click: start_seva_connect.bat                        │
+│  2. Check setup: http://localhost:8000/setup.html              │
+│  3. Open: http://localhost:8000                                 │
+│  4. Admin: http://localhost:8000/admin (admin/admin123)         │
+│                                                                  │
+│  🔑 DEFAULT LOGIN:                                               │
+│  Username: admin                                                │
+│  Password: admin123                                             │
+│  ⚠️  CHANGE IMMEDIATELY after first login!                      │
+│                                                                  │
+│  🌐 SERVICE URLS:                                                │
+│  Main Site:      http://localhost:8000                         │
+│  Admin Panel:    http://localhost:8000/admin                   │
+│  Setup Check:    http://localhost:8000/setup.html              │
+│  Certificate API: http://localhost:5002                        │
+│  Payment API:     http://localhost:5000                        │
+│  OAuth API:       http://localhost:5001                        │
+│                                                                  │
+│  💳 RAZORPAY SETUP:                                              │
+│  1. Sign up: https://dashboard.razorpay.com/                   │
+│  2. Get Test Keys: Settings → API Keys                         │
+│  3. Add to .env file                                           │
+│                                                                  │
+│  🔐 GOOGLE OAUTH:                                                │
+│  1. Visit: https://console.developers.google.com/              │
+│  2. Create project → Enable Google+ API                        │
+│  3. Create OAuth credentials                                    │
+│  4. Add redirect: http://localhost:8000/auth/callback/google   │
+│                                                                  │
+│  🔵 MICROSOFT OAUTH:                                             │
+│  1. Visit: https://portal.azure.com/                           │
+│  2. Azure AD → App registrations → New                         │
+│  3. Add redirect: http://localhost:8000/auth/callback/microsoft│
+│  4. Generate client secret                                      │
+│                                                                  │
+│  🔧 TROUBLESHOOTING:                                             │
+│  - Python not found? Install from python.org                  │
+│  - PHP not found? Install XAMPP                               │
+│  - Database error? Start MySQL in XAMPP                       │
+│  - Payment issues? Check Razorpay keys in .env                │
+│                                                                  │
+│  📁 IMPORTANT FILES:                                             │
+│  .env - All your credentials (copy from .env.example)          │
+│  README.md - Complete setup guide                              │
+│  start_seva_connect.bat - One-click startup                    │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
