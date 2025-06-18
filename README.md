@@ -945,8 +945,4 @@ This project is created for humanitarian purposes. Feel free to use, modify, and
 
 ---
 
-**Contact Information:**
-- Email: info@sevaconnect.org
-- Phone: +91 XXXXXXXXXX
-
 **Made with ❤️ for serving humanity**
